@@ -9,6 +9,7 @@ urlpatterns = [
   # first route we are defining that we are associating with view function
   path('', views.home, name='home'),
   path('about/', views.about, name='about'),
+  path('cats/', views.cat_index, name='cat-index')
 ]
 
 # now route is defined, we need to defined the views.home
