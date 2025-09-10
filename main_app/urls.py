@@ -14,6 +14,11 @@ urlpatterns = [
   path('cats/create/', views.CatCreate.as_view(), name='cat-create'),
   path('cats/<int:pk>/update/', views.CatUpdate.as_view(), name='cat-update'),
   path('cats/<int:pk>/delete/', views.CatDelete.as_view(), name='cat-delete'),
+  path('cats/<int:cat_id>/add-feeding/', views.add_feeding, name='add-feeding'),
 ]
 
+# pk = primary key
+# we have an instance that is already created
+# class based view, if you want to change it to pk
+# this is what django likes to use (int:pk)
 # now route is defined, we need to define the views.home

@@ -37,3 +37,8 @@ class Feeding(models.Model):
     return f"{self.get_meal_display()} on {self.date}"
   # method that automatically gets the human friendly value of breakfast, lunch, dinner
   #override dunder string method
+
+  class Meta:
+    ordering = ['-date']
+
+# this line makes the newest feeding appear first

@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Cat
+from .forms import FeedingForm
 # from django.http import HttpResponse
 
 # class Cat:
@@ -35,7 +36,10 @@ def cat_index(request):
 
 def cat_detail(request, cat_id):
   cat = Cat.objects.get(id=cat_id)
-  return render(request, 'cats/detail.html', {'cat': cat})
+  # create an instance of the feeding form
+  feeding_form = FeedingForm()
+  return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form})
+# this makes this form available (not display yet) to the cat detail page
 
 class CatCreate(CreateView):
   model = Cat
@@ -49,3 +53,16 @@ class CatUpdate(UpdateView):
 class CatDelete(DeleteView):
   model = Cat
   success_url = '/cats/'
+
+def add_feeding(request, cat_id):
+  # create a ModelForm instance using the data in request.POST
+  # prepare the data for the database
+  form = FeedingForm(request.POST)
+
+    #checks to see if the form data is valid for form specifications, data types matching, etc.
+  if form.is_valid():
+    # after checking, save form with commit=False, which returns in-memory model ojbect so we can assign cat_id before actually saving to database
+    new_feeding = form.save(commit=False)
+    new_feeding.cat_id = cat_id
+    new_feeding.save()
+  return redirect('cat-detail', cat_id=cat_id)
