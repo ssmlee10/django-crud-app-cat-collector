@@ -92,3 +92,10 @@ class ToyDelete(DeleteView):
 def associate_toy(request, cat_id, toy_id):
   Cat.objects.get(id=cat_id).toys.add(toy_id)
   return redirect('cat-detail', cat_id=cat_id)
+
+def remove_toy(request, cat_id, toy_id):
+  cat = Cat.objects.get(id=cat_id)
+  toy = Toy.objects.get(id=toy_id)
+  cat.toys.remove(toy)
+
+  return redirect('cat-detail', cat_id=cat_id)

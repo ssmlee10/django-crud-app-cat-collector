@@ -91,7 +91,12 @@
         <a href="{% url 'toy-detail' toy.id %}">
           <p>A {{ toy.color }} {{ toy.name }}</p>
         </a>
+        <form action="{% url 'remove-toy' cat.id toy.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Remove Toy</button>
+        </form>
       </div>
+
       {% endfor %} {% else %}
       <p class="no-toys">{{cat.name}} doesn't have any toys!</p>
       {% endif %}
@@ -99,8 +104,7 @@
 
     <h3>Available Toys</h3>
     <div class="subsection-content">
-    {% if toys.count %} 
-      {% for toy in toys %}
+      {% if toys.count %} {% for toy in toys %}
       <div class="toy-container">
         <div
           class="color-block"
@@ -112,9 +116,8 @@
           <button type="submit" class="btn submit">Give Toy</button>
         </form>
       </div>
-      {% endfor %}
-      {% else %}
-      <p class='all-toys'>{{cat.name}} already has all the available toys 🥳</p>
+      {% endfor %} {% else %}
+      <p class="all-toys">{{cat.name}} already has all the available toys 🥳</p>
       {% endif %}
     </div>
   </section>
