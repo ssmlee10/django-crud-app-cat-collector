@@ -99,6 +99,7 @@
 
     <h3>Available Toys</h3>
     <div class="subsection-content">
+    {% if toys.count %} 
       {% for toy in toys %}
       <div class="toy-container">
         <div
@@ -112,6 +113,9 @@
         </form>
       </div>
       {% endfor %}
+      {% else %}
+      <p class='all-toys'>{{cat.name}} already has all the available toys 🥳</p>
+      {% endif %}
     </div>
   </section>
 </div>

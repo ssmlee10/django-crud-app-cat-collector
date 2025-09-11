@@ -38,10 +38,11 @@ def cat_index(request):
 def cat_detail(request, cat_id):
   cat = Cat.objects.get(id=cat_id)
   # fetch all toys
-  toys = Toy.objects.all()
+  # toys = Toy.objects.all()
+  toys_cat_doesnt_have = Toy.objects.exclude(id__in = cat.toys.all().values_list('id'))
   # create an instance of the feeding form
   feeding_form = FeedingForm()
-  return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form, 'toys': toys},)
+  return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form, 'toys': toys_cat_doesnt_have},)
 # this makes this form available (not display yet) to the cat detail page
 
 class CatCreate(CreateView):
