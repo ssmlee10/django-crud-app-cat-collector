@@ -20,6 +20,7 @@ urlpatterns = [
   path('toys/', views.ToyList.as_view(), name='toy-index'),
   path('toys/<int:pk>/update/', views.ToyUpdate.as_view(), name='toy-update'),
   path('toys/<int:pk>/delete/', views.ToyDelete.as_view(), name='toy-delete'),
+  path('cats/<int:cat_id>/assoicate-toy/<int:toy_id>/', views.associate_toy, name='associate-toy')
 ]
 
 # pk = primary key
