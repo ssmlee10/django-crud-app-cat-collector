@@ -3,25 +3,14 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Cat, Toy
 from .forms import FeedingForm
+from django.contrib.auth.views import LoginView
 # from django.http import HttpResponse
 
-# class Cat:
-#   def __init__(self, name, breed, description, age):
-#     self.name = name
-#     self.breed = breed
-#     self.description = description
-#     self.age = age
+# def home(request):
+#   return render(request, 'home.html')
 
-# cats = [
-#   Cat('Lolo', 'tabby', 'Kinda rude.', 3),
-#   Cat('Sachi', 'tortoiseshell', 'Looks like a turtle.', 0),
-#   Cat('Fancy', 'bombay', 'Happy fluff ball.', 4),
-#   Cat('Bonk', 'selkirk rex', 'Meows loudly.', 6)
-# ]
-
-# Create your views here.
-def home(request):
-  return render(request, 'home.html')
+class Home(LoginView):
+  template_name = 'home.html'
 
 def about(request):
   return render(request, 'about.html')

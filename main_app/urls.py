@@ -7,7 +7,8 @@ urlpatterns = [
   # 2. we will define a home function that runs when this path is reached
   # 3. string of name = 'home'
 
-  path('', views.home, name='home'),
+  # path('', views.home, name='home'),
+  path('', views.Home.as_view(), name='home'),
   path('about/', views.about, name='about'),
   path('cats/', views.cat_index, name='cat-index'),
   path('cats/<int:cat_id>/', views.cat_detail, name='cat-detail'),
