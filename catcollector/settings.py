@@ -122,6 +122,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# if you try to access routes, /cats/ when not logged in, it redirects to home
+LOGIN_URL = 'home'
+
 LOGIN_REDIRECT_URL = 'cat-index'
 
 LOGOUT_REDIRECT_URL = 'home'
