@@ -5,6 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Cat, Toy
 from .forms import FeedingForm
 # from django.http import HttpResponse
@@ -29,6 +30,7 @@ def cat_index(request):
 #3. dictionary called cats
 # very similar to callbacks in express
 
+@login_required
 def cat_detail(request, cat_id):
   cat = Cat.objects.get(id=cat_id)
   # fetch all toys
@@ -39,7 +41,7 @@ def cat_detail(request, cat_id):
   return render(request, 'cats/detail.html', {'cat': cat, 'feeding_form': feeding_form, 'toys': toys_cat_doesnt_have},)
 # this makes this form available (not display yet) to the cat detail page
 
-class CatCreate(CreateView):
+class CatCreate(LoginRequiredMixin, CreateView):
   model = Cat
   fields = ['name', 'breed', 'description', 'age']
 
@@ -49,15 +51,16 @@ class CatCreate(CreateView):
     return super().form_valid(form)
   # built in auth assigns object to user
 
-class CatUpdate(UpdateView):
+class CatUpdate(LoginRequiredMixin, UpdateView):
   model = Cat
   fields = ['breed', 'description', 'age']
   # name field not included so they can't edit the cat's name!
 
-class CatDelete(DeleteView):
+class CatDelete(LoginRequiredMixin, DeleteView):
   model = Cat
   success_url = '/cats/'
 
+@login_required
 def add_feeding(request, cat_id):
   # create a ModelForm instance using the data in request.POST
   # prepare the data for the database
@@ -71,28 +74,30 @@ def add_feeding(request, cat_id):
     new_feeding.save()
   return redirect('cat-detail', cat_id=cat_id)
 
-class ToyCreate(CreateView):
+class ToyCreate(LoginRequiredMixin, CreateView):
   model = Toy
   fields = '__all__'
 
-class ToyList(ListView):
+class ToyList(LoginRequiredMixin, ListView):
   model = Toy
 
-class ToyDetail(DetailView):
+class ToyDetail(LoginRequiredMixin, DetailView):
   model = Toy
 
-class ToyUpdate(UpdateView):
+class ToyUpdate(LoginRequiredMixin, UpdateView):
   model = Toy
   fields = ['name', 'color']
 
-class ToyDelete(DeleteView):
+class ToyDelete(LoginRequiredMixin, DeleteView):
   model = Toy
   success_url = '/toys/'
 
+@login_required
 def associate_toy(request, cat_id, toy_id):
   Cat.objects.get(id=cat_id).toys.add(toy_id)
   return redirect('cat-detail', cat_id=cat_id)
 
+@login_required
 def remove_toy(request, cat_id, toy_id):
   cat = Cat.objects.get(id=cat_id)
   toy = Toy.objects.get(id=toy_id)
